@@ -5,8 +5,24 @@
 {{ end }}
 
 {{ define "main" }}
+{{ if eq .Page.Type "pdf" }}
+    {{ range where $.Site.Pages "Type" "cumulus-netq"}}
 <article class="markdown">
-  {{ if .Site.Params.pdfExport }}
+    <h1>  {{- .Title -}} </h1>
+  {{- .Content -}}
+</article>
+  {{ end }}
+{{ end }}
+{{ else }}
+  <article class="markdown">
+    <h1>  {{- .Title -}} </h1>
+  {{- .Content -}}
+  </article>
+{{ end }}
+
+{{ define "main" }}
+<article class="markdown">
+  {{ if eq .Page.Type "pdf" }}
     {{ $id := .Page.Title | lower | replaceRE "[^0-9a-z]" "-" | replaceRE "-+" "-"}}
     <h1 id="{{ $id }}">  {{- .Page.Title -}} </h1>
   {{else}}
