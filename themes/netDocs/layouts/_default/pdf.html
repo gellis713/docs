@@ -1,0 +1,10 @@
+{{ define "main" }}
+    {{ range where $.Site.Pages "Type" "cumulus-netq"}}
+    <article class="markdown">
+        <h1>  {{- .Title -}} </h1>
+    {{- .Content -}}
+    </article>
+    {{ end }}
+{{ end }}
+
+

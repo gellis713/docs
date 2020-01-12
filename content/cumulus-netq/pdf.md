@@ -5,5 +5,3 @@ layout: pdf
 product: Cumulus NetQ
 type: pdf
 ---
-<!-- {{ if eq .Page.Type "pdf"}}
-    {{end}} -->

@@ -13,13 +13,13 @@
   <!-- Theme stylesheet, you can customize scss by creatig `assets/custom.scss` in your website -->
   <!-- WHERE Hugo pipes in and compiles book.scss-->
   {{ $styles := resources.Get "book.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
+  <link rel="stylesheet" href="{{ $styles.Permalink }}">
   {{ if .Site.Params.pdfExport }}
     {{ $styles := resources.Get "book.scss" | resources.ToCSS | resources.Minify }}
   {{ end }}
   
   <!-- Favicon -->
-  <link rel="icon" href="{{ "icons/favicon.png" | relURL }}" type="image/x-icon">
+  <link rel="icon" href="{{ "icons/favicon.png" | absURL }}" type="image/x-icon">
 
   <!-- RSS -->
   {{ with .OutputFormats.Get "rss" -}}
@@ -33,7 +33,7 @@
 
   <!-- clipboard.js support -->
   {{ $jsCodeCopy := resources.Get "js/codecopy.js"}}
-  <script src = "{{ $jsCodeCopy.RelPermalink }}"> </script>
+  <script src = "{{ $jsCodeCopy.Permalink }}"> </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
@@ -64,6 +64,7 @@
       </div>
     </div>
   </header>
+{{if ne .Page.Type "pdf"}}
   <div id="product-nav" class="flex">
     <div class="menu-container">
       <!-- generates subnav memu from config.toml -->
@@ -119,12 +120,12 @@
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {{- range where .Site.Sections "Params.product" $currentProduct -}}
-            <a class = "dropdown-item" href = "{{- .RelPermalink -}}"> v{{- .Params.version -}}</a>
+            <a class = "dropdown-item" href = "{{- .Permalink -}}"> v{{- .Params.version -}}</a>
             {{- end -}}
             {{- range where .Site.Pages "Section" "version" -}}
              {{- if eq .Params.product $currentProduct -}}
              {{- if .Params.subsection -}}
-            <a class = "dropdown-item" href = "{{- .RelPermalink -}}"> v{{- .Params.version -}}</a>
+            <a class = "dropdown-item" href = "{{- .Permalink -}}"> v{{- .Params.version -}}</a>
             {{- end -}}
             {{- end -}}
             {{- end -}}
@@ -165,12 +166,12 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {{- range where .Site.Sections "Params.product" $currentProduct -}}
-              <a class = "dropdown-item" href = "{{- .RelPermalink -}}"> v{{- .Params.version -}}</a>
+              <a class = "dropdown-item" href = "{{- .Permalink -}}"> v{{- .Params.version -}}</a>
               {{- end -}}
               {{- range where .Site.Pages "Section" "version" -}}
                {{- if eq .Params.product $currentProduct -}}
                {{- if .Params.subsection -}}
-              <a class = "dropdown-item" href = "{{ .RelPermalink }}"> v{{- .Params.version -}}</a>
+              <a class = "dropdown-item" href = "{{ .Permalink }}"> v{{- .Params.version -}}</a>
               {{- end -}}
               {{- end -}}
               {{- end -}}
@@ -220,11 +221,11 @@
       {{ $jsCustom := resources.Get "js/custom.js" }}
       {{ $jsMenu := slice $jsScroll $jsCollapse $jsCustom | resources.Concat "js/menuBundle.js"}}
 
-      <script src = "{{ $jsMenu.RelPermalink }}"> </script>
+      <script src = "{{ $jsMenu.Permalink }}"> </script>
 
 
     </aside>
-
+{{ end }}
     <div class="book-page">
 
       <!-- branch to list.html or single.html -->
